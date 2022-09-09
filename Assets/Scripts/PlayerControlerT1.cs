@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerControlerT1 : MonoBehaviour
 {
     //MALONI
 
-    public float velocity =10, jumpForce=5;
+    public float velocity =-10, jumpForce=5;
     bool puedeSaltar = true;
 
+    public GameObject bullet;
     
     Rigidbody2D rb; 
     SpriteRenderer sr; 
     Animator animator;
+    
 
     const int ANIMACION_QUIETO=0;
     const int ANIMACION_CORRER=1;
@@ -21,6 +24,8 @@ public class PlayerControlerT1 : MonoBehaviour
     const int ANIMACION_SALTAR=4;
 
     private Vector3 lastCheckpointPosition;
+    private int salRealizados;
+    public  int limSaltos;
 
 
     // Start is called before the first frame update
@@ -39,6 +44,10 @@ public class PlayerControlerT1 : MonoBehaviour
     void Update()
     {
 
+        rb.velocity =new Vector2(velocity,rb.velocity.y);
+            sr.flipX=false;
+            cambiarAnimacion(ANIMACION_CAMINAR);
+
         //puedeSaltar = true;  //SALTAR MAS DE DOS VECES 
         Debug.Log("Puede saltar"+puedeSaltar.ToString());
 
@@ -48,7 +57,7 @@ public class PlayerControlerT1 : MonoBehaviour
             rb.velocity =new Vector2(20,rb.velocity.y);
             sr.flipX=false;
             cambiarAnimacion(ANIMACION_CORRER);
-        }      
+        }             
         
         //MOVER IZQUIERDA
         else if(Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey("x")){
@@ -65,8 +74,8 @@ public class PlayerControlerT1 : MonoBehaviour
             rb.velocity =new Vector2(velocity,rb.velocity.y);
             sr.flipX=false;
             cambiarAnimacion(ANIMACION_CAMINAR);
-        }      
-        
+        }   
+       
         //MOVER IZQUIERDA
         else if(Input.GetKey(KeyCode.LeftArrow)){
 
@@ -76,13 +85,36 @@ public class PlayerControlerT1 : MonoBehaviour
         }
 //---------------------------------------------------------------------
 
-        //SALTAR
-        else if(Input.GetKeyUp(KeyCode.Space)&& puedeSaltar){
-            rb.AddForce(new Vector2(0,jumpForce), ForceMode2D.Impulse);
-            puedeSaltar=false;
-            cambiarAnimacion(ANIMACION_SALTAR);
-        }
+        //SALTAR   2 saltos
 
+        else if(Input.GetKeyDown(KeyCode.Space)){
+                    if(salRealizados<limSaltos){
+                    rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                    salRealizados++;
+                    
+                    }
+
+                    cambiarAnimacion(ANIMACION_SALTAR);
+                }
+
+       // disparar vala x
+        else if(Input.GetKeyUp(KeyCode.O)&& sr.flipX==true){
+
+            var bulletPosition=transform.position+new Vector3(-3,0,0);
+            var gb=Instantiate(bullet, bulletPosition,Quaternion.identity)as GameObject;
+            var controller=gb.GetComponent<BalaController>();
+            controller.SetLeftDirection();
+
+        }
+        // disparar vala P
+        else if(Input.GetKeyUp(KeyCode.O)&& sr.flipX==false){
+
+            var bulletPosition=transform.position+new Vector3(3,0,0);
+            var gb=Instantiate(bullet, bulletPosition,Quaternion.identity)as GameObject;
+            var controller=gb.GetComponent<BalaController>();
+            controller.SetRightDirection();
+
+        }
         //ATACAR
         else if(Input.GetKey(KeyCode.Z)){
 
@@ -96,7 +128,7 @@ public class PlayerControlerT1 : MonoBehaviour
         }
 
     }
-
+    
 
     private void OnTriggerEnter2D(Collider2D other) {
         lastCheckpointPosition=transform.position;
@@ -113,28 +145,18 @@ public class PlayerControlerT1 : MonoBehaviour
                 Debug.Log("Estas muerto");
             }
 
-            if(other.gameObject.name =="DarkHole"){
+            if(other.gameObject.tag =="DarkHole"){
 
-            if(lastCheckpointPosition!=null){
+                if(lastCheckpointPosition!=null){
+
                 transform.position=lastCheckpointPosition;
             }
 
+            }           
+            //Saltar
+            if(other.collider.tag =="Tilemap"){   
+            salRealizados= 0;  
             }
-//2checkpoint
-//------------------------------------------
-            if(other.gameObject.name =="DarkHole"){
-
-            if(lastCheckpointPosition!=null){
-                transform.position=lastCheckpointPosition;
-            }
-
-            }
-            
-
-//------------------------------------------
-
-
-
 
     }
     void cambiarAnimacion(int animacion){
