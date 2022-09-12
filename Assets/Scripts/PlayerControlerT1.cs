@@ -7,7 +7,7 @@ public class PlayerControlerT1 : MonoBehaviour
 {
     //MALONI
 
-    public float velocity =-10, jumpForce=5;
+    public float velocity =10, jumpForce=5;
     bool puedeSaltar = true;
 
     public GameObject bullet;
@@ -22,10 +22,13 @@ public class PlayerControlerT1 : MonoBehaviour
     const int ANIMACION_ATACAR=2;
     const int ANIMACION_CAMINAR=3;
     const int ANIMACION_SALTAR=4;
+    const int ANIMACION_MORIR=5;
 
     private Vector3 lastCheckpointPosition;
     private int salRealizados;
     public  int limSaltos;
+
+    private GameManagerT1 gameManager;
 
 
     // Start is called before the first frame update
@@ -37,6 +40,7 @@ public class PlayerControlerT1 : MonoBehaviour
         rb=GetComponent<Rigidbody2D>();
         sr=GetComponent<SpriteRenderer>();
         animator=GetComponent<Animator>();
+        gameManager= FindObjectOfType<GameManagerT1>();
         
     }
 
@@ -44,12 +48,10 @@ public class PlayerControlerT1 : MonoBehaviour
     void Update()
     {
 
-        rb.velocity =new Vector2(velocity,rb.velocity.y);
-            sr.flipX=false;
-            cambiarAnimacion(ANIMACION_CAMINAR);
+       
 
-        //puedeSaltar = true;  //SALTAR MAS DE DOS VECES 
-        Debug.Log("Puede saltar"+puedeSaltar.ToString());
+        // //puedeSaltar = true;  //SALTAR MAS DE DOS VECES 
+        // Debug.Log("Puede saltar"+puedeSaltar.ToString());
 
         //MOVER DERECHA
         if(Input.GetKey(KeyCode.RightArrow)&& Input.GetKey("x") ){
@@ -90,10 +92,9 @@ public class PlayerControlerT1 : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.Space)){
                     if(salRealizados<limSaltos){
                     rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-                    salRealizados++;
-                    
-                    }
+                    salRealizados++;     
 
+                    }
                     cambiarAnimacion(ANIMACION_SALTAR);
                 }
 
@@ -120,11 +121,31 @@ public class PlayerControlerT1 : MonoBehaviour
 
             cambiarAnimacion(ANIMACION_ATACAR);
         }
+
+        // //MORIR
+        // else if(Input.GetKey(KeyCode.Z)){
+
+        //     cambiarAnimacion(ANIMACION_MORIR);
+        // }
+
+        //MORIR
+        else if(gameManager.livesText.text=="Fin Juego"){
+            
+            rb.velocity =new Vector2(0,rb.velocity.y);
+            cambiarAnimacion(ANIMACION_MORIR);
+        }
              
 
         else{
+
+            //CUANDO NO HACE NADA ESTA QUIETO
             rb.velocity = new Vector2(0, rb.velocity.y);
              cambiarAnimacion(ANIMACION_QUIETO);
+
+            //CORRE AL INICIAR 
+            // rb.velocity =new Vector2(5,rb.velocity.y);
+            // sr.flipX=false;
+            // cambiarAnimacion(ANIMACION_CORRER);
         }
 
     }
@@ -143,6 +164,10 @@ public class PlayerControlerT1 : MonoBehaviour
             if(other.gameObject.tag == "Enemy"){
 
                 Debug.Log("Estas muerto");
+
+                gameManager.PerderVida();
+
+
             }
 
             if(other.gameObject.tag =="DarkHole"){
@@ -151,6 +176,8 @@ public class PlayerControlerT1 : MonoBehaviour
 
                 transform.position=lastCheckpointPosition;
             }
+
+
 
             }           
             //Saltar

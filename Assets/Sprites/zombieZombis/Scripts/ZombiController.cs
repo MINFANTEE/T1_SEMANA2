@@ -13,6 +13,9 @@ public class ZombiController : MonoBehaviour
     const int ANIMACION_QUIETO=0;
     const int ANIMACION_CORRER=1;
 
+    private GameManagerT1 gameManager;
+
+
     void Start()
     {
 
@@ -21,6 +24,8 @@ public class ZombiController : MonoBehaviour
         rb=GetComponent<Rigidbody2D>();
         sr=GetComponent<SpriteRenderer>();
         animator=GetComponent<Animator>();
+        gameManager= FindObjectOfType<GameManagerT1>();
+
         
     }
 

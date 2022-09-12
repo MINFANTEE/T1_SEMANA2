@@ -17,7 +17,7 @@ public class GameManagerT1 : MonoBehaviour
     void Start()
     {
         score=0;
-        lives=3;
+        lives=1;
         PrintScoreInScreen();
         PrintLivesInScreen();
     }
@@ -36,9 +36,14 @@ public class GameManagerT1 : MonoBehaviour
 
     }
 
-    public void PerderVida(int puntos){
+    public void PerderVida(){
         lives-= 1;
         PrintLivesInScreen();
+
+        if(lives==0){
+            livesText.text="Fin Juego";
+
+        }
     }
 
     private void PrintScoreInScreen(){

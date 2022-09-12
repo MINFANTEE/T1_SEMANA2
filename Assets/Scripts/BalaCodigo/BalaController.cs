@@ -11,6 +11,9 @@ public class BalaController : MonoBehaviour
 
     Rigidbody2D rb;
 
+        private GameManagerT1 gameManager;
+
+
     public void SetRightDirection(){
 
         realVelocity=velocity;
@@ -25,6 +28,8 @@ public class BalaController : MonoBehaviour
     {
         rb= GetComponent<Rigidbody2D>(); 
         Destroy(this.gameObject,5);
+                gameManager= FindObjectOfType<GameManagerT1>();
+
     }
 
     void Update()
@@ -38,6 +43,7 @@ public class BalaController : MonoBehaviour
         Destroy(this.gameObject); //Destrir al objeto y la bala    
         if(other.gameObject.tag== "Enemy"){
             Destroy(other.gameObject);// DESTRUIR DONDE CHOCA
+            gameManager.GanarPuntos(10);
 
         }    
     
