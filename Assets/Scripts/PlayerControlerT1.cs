@@ -8,7 +8,7 @@ public class PlayerControlerT1 : MonoBehaviour
     //MALONI
 
     public float velocity =10, jumpForce=5;
-    bool puedeSaltar = true;
+    //bool puedeSaltar = true;
 
     public GameObject bullet;
     
@@ -159,7 +159,7 @@ public class PlayerControlerT1 : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other){
 
         Debug.Log("Puede saltar");
-        puedeSaltar=true;
+        //puedeSaltar=true;
 
             if(other.gameObject.tag == "Enemy"){
 

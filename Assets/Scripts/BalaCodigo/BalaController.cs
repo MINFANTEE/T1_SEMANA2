@@ -10,8 +10,9 @@ public class BalaController : MonoBehaviour
     float realVelocity;
 
     Rigidbody2D rb;
+    SpriteRenderer sr;
 
-        private GameManagerT1 gameManager;
+    private GameManagerT1 gameManager;
 
 
     public void SetRightDirection(){
@@ -27,14 +28,20 @@ public class BalaController : MonoBehaviour
     void Start()
     {
         rb= GetComponent<Rigidbody2D>(); 
+        sr=GetComponent<SpriteRenderer>();
+        gameManager= FindObjectOfType<GameManagerT1>();
         Destroy(this.gameObject,5);
-                gameManager= FindObjectOfType<GameManagerT1>();
+
 
     }
 
     void Update()
     {
         rb.velocity= new Vector2(realVelocity,0);
+
+        if(realVelocity==-20){
+            sr.flipX=true;
+        }
 
     }
 
@@ -44,6 +51,7 @@ public class BalaController : MonoBehaviour
         if(other.gameObject.tag== "Enemy"){
             Destroy(other.gameObject);// DESTRUIR DONDE CHOCA
             gameManager.GanarPuntos(10);
+            gameManager.SaveGame();
 
         }    
     

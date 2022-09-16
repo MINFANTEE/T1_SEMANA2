@@ -8,6 +8,11 @@ TagManager:
   - Tilemap
   - DarkHole
   - flechachechpoint
+  - SueloSal
+  - crecerPlayer
+  - reducirPlayer
+  - Moneda
+  - Ladder
   layers:
   - Default
   - TransparentFX
