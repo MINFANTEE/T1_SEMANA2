@@ -8,13 +8,23 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameManagerT1 : MonoBehaviour
 {
-    public Text monedaText;
+    public Text monedaText;//moneda1
+    public Text moneda2Text;
+    public Text moneda3Text;
+
     public Text scoreText;
+    
+
     public Text livesText;
     public Text balasText;
+    
 
 
     private int moneda;
+    private int moneda2;
+    private int moneda3;
+
+
     private int score;
     private int lives;
     private int balas;
@@ -25,9 +35,20 @@ public class GameManagerT1 : MonoBehaviour
         balas=5;
         score=0;
         lives=1;
+
+        moneda=0;
+        moneda2=0;
+        moneda3=0;      
+
+
+
         PrintScoreInScreen();
         PrintLivesInScreen();
         PrintBalasInScreen();
+
+        PrintMonedaInScreen();
+        PrintMoneda2InScreen();
+        PrintMoneda3InScreen();
         LoadGame();
     }
 
@@ -46,6 +67,10 @@ public class GameManagerT1 : MonoBehaviour
 
         GameDataT1 data =new GameDataT1();
         data.Score=score;
+
+        data.Moneda=moneda;
+        data.Moneda2=moneda2;
+        data.Moneda3=moneda3;
 
         BinaryFormatter bf =new BinaryFormatter();
         bf.Serialize(file, data);
@@ -74,7 +99,13 @@ public class GameManagerT1 : MonoBehaviour
         file.Close();
 
         score=data.Score;
+        moneda=data.Moneda;
+        moneda2=data.Moneda2;
+        moneda3=data.Moneda3;
         PrintScoreInScreen();
+        PrintMonedaInScreen();
+        PrintMoneda2InScreen();
+        PrintMoneda3InScreen();
 
     }
 
@@ -95,6 +126,12 @@ public class GameManagerT1 : MonoBehaviour
     public int Lives(){
         return lives;
     }
+    public int Moneda2(){
+        return moneda2;
+    }
+    public int Moneda3(){
+        return moneda3;
+    }
 
 
     //
@@ -107,6 +144,18 @@ public class GameManagerT1 : MonoBehaviour
     public void GanarMonedas(int money){
         moneda+=money;
         PrintMonedaInScreen();
+
+    }
+
+    public void GanarMonedas2(int money2){
+        moneda2+=money2;
+        PrintMoneda2InScreen();
+
+    }
+
+    public void GanarMonedas3(int money3){
+        moneda3+=money3;
+        PrintMoneda3InScreen();
 
     }
 
@@ -135,6 +184,13 @@ public class GameManagerT1 : MonoBehaviour
         monedaText.text="Moneda tipo 1: "+ moneda;
     }
 
+    private void PrintMoneda2InScreen(){
+        moneda2Text.text="Moneda tipo 2: "+ moneda2;
+    }
+
+    private void PrintMoneda3InScreen(){
+        moneda3Text.text="Moneda tipo 3: "+ moneda3;
+    }
 
     private void PrintScoreInScreen(){
         scoreText.text="Puntaje: "+ score;
@@ -143,4 +199,7 @@ public class GameManagerT1 : MonoBehaviour
     private void PrintLivesInScreen(){
         livesText.text="Vida: "+ lives;
     }
+
+    
+
 }

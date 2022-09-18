@@ -8,6 +8,11 @@ using UnityEngine;
     {
 
     public int Score {get; set;}
+
+    public int Moneda {get; set;}
+    public int Moneda2 {get; set;}
+    public int Moneda3 {get; set;}
+    
     public int Coins {get; set;}
 
     }

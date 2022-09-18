@@ -173,10 +173,27 @@ public class NinjaHombreController : MonoBehaviour
             transform.localScale=new Vector3(0.98f,0.82f,1);
         }    
 
+        //COGER MONEDAS
         if(other.gameObject.tag == "Moneda"){
             
             Destroy(other.gameObject);
             gameManager.GanarMonedas(20);
+            audioSource.PlayOneShot(monedaClip);
+            
+        }
+
+        if(other.gameObject.tag == "Moneda2"){
+            
+            Destroy(other.gameObject);
+            gameManager.GanarMonedas2(30);
+            audioSource.PlayOneShot(monedaClip);
+            
+        }
+
+        if(other.gameObject.tag == "Moneda3"){
+            
+            Destroy(other.gameObject);
+            gameManager.GanarMonedas3(40);
             audioSource.PlayOneShot(monedaClip);
             
         }
@@ -189,6 +206,7 @@ public class NinjaHombreController : MonoBehaviour
     //
     private void OnTriggerEnter2D(Collider2D other) {
         lastCheckpointPosition= transform.position;
+        gameManager.SaveGame();
     }
 
     // met cambiar animaciones
