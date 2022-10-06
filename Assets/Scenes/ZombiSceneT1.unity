@@ -232,8 +232,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c307acf336a7694c80091a69fc366d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monedaText: {fileID: 0}
+  moneda2Text: {fileID: 0}
+  moneda3Text: {fileID: 0}
   scoreText: {fileID: 71374859}
   livesText: {fileID: 1351614909}
+  balasText: {fileID: 0}
+  lives: 0
 --- !u!4 &188759017
 Transform:
   m_ObjectHideFlags: 0
@@ -343,6 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &410683376
 Rigidbody2D:
   serializedVersion: 4
@@ -2644,6 +2650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &564600685
 Rigidbody2D:
   serializedVersion: 4
@@ -2812,6 +2819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &596327378
 Rigidbody2D:
   serializedVersion: 4
@@ -2980,6 +2988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &929045248
 Rigidbody2D:
   serializedVersion: 4
@@ -3148,6 +3157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &1150533887
 Rigidbody2D:
   serializedVersion: 4
@@ -3666,6 +3676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &1406345254
 Rigidbody2D:
   serializedVersion: 4
@@ -3834,6 +3845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &1538824361
 Rigidbody2D:
   serializedVersion: 4
@@ -4002,6 +4014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &1807738889
 Rigidbody2D:
   serializedVersion: 4
@@ -4141,7 +4154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1979529791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4341,6 +4354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 10
+  vidaEnemigo: 4
 --- !u!50 &2078912389
 Rigidbody2D:
   serializedVersion: 4

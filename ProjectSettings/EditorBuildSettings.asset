@@ -6,6 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MenuInicio.unity
+    guid: e6265453e9d3edb48b7c7fb3ec0b1de8
+  - enabled: 1
+    path: Assets/Scenes/Sem7.unity
+    guid: ed3d13ba805156041b6ca8647d632fdd
+  - enabled: 1
+    path: Assets/Scenes/GuardadoPunto.unity
+    guid: e8a5d3ab57fdfb44a8076236880e41bf
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Sem5.unity
+    guid: 293cf34b816d14d468f824884070a3e2
+  - enabled: 1
+    path: Assets/Scenes/Nave.unity
+    guid: 12cdbf0d3f9f6da40b518d2571aa9862
+  - enabled: 1
+    path: Assets/Scenes/Navidad.unity
+    guid: 7f5dc020013df664a8d84fd22f57b099
+  - enabled: 1
+    path: Assets/Scenes/ZombiSceneT1.unity
+    guid: 2b73cdfd0af489648a12205f7c05ef67
   m_configObjects: {}

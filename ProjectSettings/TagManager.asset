@@ -15,6 +15,9 @@ TagManager:
   - Ladder
   - Moneda2
   - Moneda3
+  - LimIzq
+  - LimDer
+  - Limite
   layers:
   - Default
   - TransparentFX

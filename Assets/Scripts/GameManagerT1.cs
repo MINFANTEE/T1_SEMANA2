@@ -26,7 +26,7 @@ public class GameManagerT1 : MonoBehaviour
 
 
     private int score;
-    private int lives;
+    public int lives;
     private int balas;
 
 
@@ -34,7 +34,9 @@ public class GameManagerT1 : MonoBehaviour
     {
         balas=5;
         score=0;
-        lives=1;
+
+        ///////
+        lives=3;
 
         moneda=0;
         moneda2=0;
@@ -166,10 +168,11 @@ public class GameManagerT1 : MonoBehaviour
     }
 
     public void PerderVida(){
-        lives-= 1;
+        lives -= 1;
         PrintLivesInScreen();
 
         if(lives==0){
+
             livesText.text="Fin Juego";
 
         }
@@ -177,11 +180,11 @@ public class GameManagerT1 : MonoBehaviour
 
     //
     private void PrintBalasInScreen(){
-    balasText.text="Balas: "+balas;
+        balasText.text="Balas: "+balas;
    }
 
     private void PrintMonedaInScreen(){
-        monedaText.text="Moneda tipo 1: "+ moneda;
+        monedaText.text="Monedas: "+ moneda;
     }
 
     private void PrintMoneda2InScreen(){

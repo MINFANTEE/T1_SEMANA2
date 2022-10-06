@@ -5,6 +5,8 @@ using UnityEngine;
 public class ZombiController : MonoBehaviour
 {
     public float velocity =-0.5f;
+
+    public float vidaEnemigo=4;
     
     Rigidbody2D rb; 
     SpriteRenderer sr; 
@@ -19,7 +21,6 @@ public class ZombiController : MonoBehaviour
     void Start()
     {
 
-        Debug.Log("Empezando juego");
 
         rb=GetComponent<Rigidbody2D>();
         sr=GetComponent<SpriteRenderer>();
@@ -36,7 +37,18 @@ public class ZombiController : MonoBehaviour
         sr.flipX = true;
         cambiarAnimacion(ANIMACION_CORRER);       
 
+        if (vidaEnemigo==0){
+
+            Destroy(this.gameObject);
+        }
+
     }
+
+    public void Ataque(int ataque){
+        vidaEnemigo-=ataque;
+        Debug.Log("las vidas del enemigo son: " +vidaEnemigo);
+    }
+
     void cambiarAnimacion(int animacion){
         animator.SetInteger("Estado",animacion);
     }

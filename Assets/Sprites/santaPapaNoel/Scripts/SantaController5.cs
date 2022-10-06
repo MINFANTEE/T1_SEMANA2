@@ -1,135 +1,226 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class SantaController5 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public float JumpForce = 20;
+  
 
-    public float velocity = 10;
-    public int Saltos;
-    Rigidbody2D rb; 
+    public float velocity=10, jumpForce=5;
+
+    bool puedeSaltar=true;
+    private int salRealizados;
+    private GameManagerT1 gameManager;
+    public  int limSaltos;
+    public GameObject bullet;
+    public AudioClip saltarClip;
+    public AudioClip balaClip;
+    public AudioClip monedaClip;
+    
+
+
+    AudioSource audioSource;
+
+    Rigidbody2D rb;
     SpriteRenderer sr;
     Animator animator;
 
-    
-    const int ANIMATION_QUIETO = 0;
-    const int ANIMATION_CAMINAR=1;
-    const int ANIMATION_CORRER = 2;
-    const int ANIMATION_SALTAR = 3;
-    const int ANIMATION_DESLIZAR = 4;
-    const int ANIMATION_MORIR = 5;
+    const int ANIMACION_QUIETO=0;
+    const int ANIMACION_CAMINAR=1;
+    const int ANIMACION_CORRER=2;    
+    const int ANIMACION_SALTAR=3;
+    const int ANIMACION_DESLIZAR=4;
+    const int ANIMACION_MORIR=5;
 
-    bool puedeSaltar = true;
 
-    private int saltosHechos;
-    public int limiteSaltos = 2;
+    private int balas=0;
+
 
     private Vector3 lastCheckpointPosition;
-   
+
     void Start()
     {
-        Debug.Log("Iniciamos script de player");
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+
+        rb= GetComponent<Rigidbody2D>(); 
+        sr=GetComponent<SpriteRenderer>(); 
+        animator=GetComponent<Animator>();
+        audioSource=GetComponent<AudioSource>();
+        gameManager=FindObjectOfType<GameManagerT1>();
+        
     }
 
     void Update()
-    {
-        Debug.Log("Puede saltar"+puedeSaltar.ToString());
-         puedeSaltar = true;
+    {     
 
-        //CORRER
-        if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.X)){
-            rb.velocity = new Vector2(-20, rb.velocity.y);
-            sr.flipX = true;
-            ChangeAnimation(ANIMATION_CORRER);
-        }
-
-        else if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.X)){
-            rb.velocity = new Vector2(20, rb.velocity.y);
-            sr.flipX = false;
-            ChangeAnimation(ANIMATION_CORRER);
+       
+        //Correr MAS X
+        if (Input.GetKey(KeyCode.RightArrow)&& Input.GetKey("x"))
+        {            
+            rb.velocity= new Vector2(20, rb.velocity.y);
+            sr.flipX=false;
+            CambiarAnimacion(ANIMACION_CORRER);
         }
         
-        //CAMINAR
-        else if (Input.GetKey(KeyCode.RightArrow)){
-            rb.velocity = new Vector2(velocity, rb.velocity.y);  
-            sr.flipX = false;
-            ChangeAnimation(ANIMATION_CAMINAR);
+        else if (Input.GetKey(KeyCode.LeftArrow)&& Input.GetKey("x"))
+        {            
+            rb.velocity= new Vector2(-20, rb.velocity.y);
+            sr.flipX=true;
+            CambiarAnimacion(ANIMACION_CORRER);
+        } 
+
+        // CAMINAR FLECHAS
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {            
+            rb.velocity= new Vector2(velocity, rb.velocity.y);
+            sr.flipX=false;
+            CambiarAnimacion(ANIMACION_CAMINAR);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow)){
-            rb.velocity = new Vector2(-velocity, rb.velocity.y);
-            sr.flipX = true;
-            ChangeAnimation(ANIMATION_CAMINAR);
+        
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {            
+            rb.velocity= new Vector2(-velocity, rb.velocity.y);
+            sr.flipX=true;
+            CambiarAnimacion(ANIMACION_CAMINAR);
         }
 
-        //SALTAR
-        else if(Input.GetKeyUp(KeyCode.Space)){
-            if(saltosHechos<limiteSaltos){
-
-                rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-                
-                saltosHechos++;
-                ChangeAnimation(ANIMATION_SALTAR);
-                
+        // salto 2 veces
+        else if(Input.GetKeyDown(KeyCode.Space)){
+                if(salRealizados<limSaltos){
+                    rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                    salRealizados++;
+                    }                
+                    CambiarAnimacion(ANIMACION_SALTAR);
+                    audioSource.PlayOneShot(saltarClip);
             }
-            
+
+        //Deslizarse
+        else if(Input.GetKey(KeyCode.C)){
+                CambiarAnimacion(ANIMACION_DESLIZAR);
         }
 
-        //DESLIZAR
-       else if(Input.GetKeyUp(KeyCode.D))
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            ChangeAnimation(ANIMATION_DESLIZAR);
+
+        //Morir
+        else if(Input.GetKey(KeyCode.D)){
+                CambiarAnimacion(ANIMACION_MORIR);
         }
 
-        //DEAD MORIR
-       else if(Input.GetKeyUp(KeyCode.M))
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            ChangeAnimation(ANIMATION_MORIR);
-        }
+        // // disparar vala x
+        // else if(Input.GetKeyUp(KeyCode.M)&& sr.flipX==true &&balas<5){
 
-        //QUIETO
-        else
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            ChangeAnimation(ANIMATION_QUIETO);
+        //     var bulletPosition=transform.position+new Vector3(-3,0,0);
+        //     var gb=Instantiate(bullet, bulletPosition,Quaternion.identity)as GameObject;
+        //     var controller=gb.GetComponent<BalaController>();
+        //     controller.SetLeftDirection();
+        //     audioSource.PlayOneShot(balaClip);
+        //     gameManager.PerderBalas();
+        //     balas++;
+        // }
+        // // disparar vala P
+        // else if(Input.GetKeyUp(KeyCode.M)&& sr.flipX==false  &&balas<5){
+
+        //     var bulletPosition=transform.position+new Vector3(3,0,0);
+        //     var gb=Instantiate(bullet, bulletPosition,Quaternion.identity)as GameObject;
+        //     var controller=gb.GetComponent<BalaController>();
+        //     controller.SetRightDirection();
+        //     audioSource.PlayOneShot(balaClip);
+        //     gameManager.PerderBalas();
+        //     balas++;
+
+        // }
+
+        else {
+        
+        //Cuando aplasto avanza (parado)
+        rb.velocity= new Vector2(0,rb.velocity.y);
+        CambiarAnimacion(ANIMACION_QUIETO);
+
         }
+                
+        
+
+
+        
     }
 
-    
+//------------------------------------------------------------------------
+
+
+    //ver con quien colisiona
     void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log("Puede saltar");
-        puedeSaltar = true;
-            if (other.gameObject.tag == "Enemy")
-            {
-                Debug.Log("Estas muerto");
-            } 
-            if (other.gameObject.name == "DarkHole")
-            {
-                if (lastCheckpointPosition != null)
-                {
-                    transform.position = lastCheckpointPosition;
-                }
-            }
 
-            if(other.collider.tag=="Tilemap"){
-            saltosHechos = 0;  
-        }
+        puedeSaltar=true;
+
+        if(other.gameObject.tag == "DarkHole"){
             
-    }
-    private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("trigger");
-        lastCheckpointPosition = transform.position;
-    }
-   
-    private void ChangeAnimation(int animation){
-        animator.SetInteger("Estado", animation);
+            //regresar a la ultima posiion de checkpoint
+            if(lastCheckpointPosition != null){
+                transform.position= lastCheckpointPosition;
+            }
+        }
 
+        //colocar tag para que puda saltar
+        if(other.collider.tag=="SueloSal"){
+          salRealizados= 0;  
+        }  
+
+         if(other.gameObject.tag=="crecerPlayer") {
+
+            transform.localScale=new Vector3(2,2,1.5f);
+        }
+
+        if(other.gameObject.tag=="reducirPlayer") {
+
+            transform.localScale=new Vector3(0.98f,0.82f,1);
+        }    
+
+        //COGER MONEDAS
+        if(other.gameObject.tag == "Moneda"){
+            
+            Destroy(other.gameObject);
+            gameManager.GanarMonedas(10);
+            audioSource.PlayOneShot(monedaClip);
+            
+        }
+
+        if(other.gameObject.tag == "Moneda2"){
+            
+            Destroy(other.gameObject);
+            gameManager.GanarMonedas2(10);
+            audioSource.PlayOneShot(monedaClip);
+            
+        }
+
+        if(other.gameObject.tag == "Moneda3"){
+            
+            Destroy(other.gameObject);
+            gameManager.GanarMonedas3(10);
+            audioSource.PlayOneShot(monedaClip);
+            
+        }
+        
+         
+
+        
+    }
+
+    //
+    private void OnTriggerEnter2D(Collider2D other) {
+        lastCheckpointPosition= transform.position;
+
+        if(other.gameObject.name == "Flecha"){
+             
+            SceneManager.LoadScene(2);
+        } 
+
+        //gameManager.SaveGame();
+    }
+
+    // met cambiar animaciones
+    void CambiarAnimacion(int animation){
+
+        animator.SetInteger("Estado",animation);
     }
 
 }
